@@ -1,0 +1,55 @@
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.transport-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px; }
+
+.transport-group { padding: 18px; }
+.group-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.group-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.group-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--amber-500), var(--amber-600));
+  display: flex; align-items: center; justify-content: center; color: white;
+}
+.group-saving { text-align: right; }
+.group-saving span { display: block; font-size: 11px; color: var(--text-secondary); }
+.group-saving strong { font-size: 22px; font-weight: 800; color: var(--green-400); }
+
+.group-farmers { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.group-farmer {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  background: rgba(34, 197, 94, 0.05);
+  border-radius: var(--radius-sm);
+  font-size: 13px; color: var(--text-primary);
+}
+.farmer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); flex-shrink: 0; }
+
+.group-costs {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-bottom: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+.cost-item { display: flex; flex-direction: column; gap: 2px; }
+.cost-item span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary); }
+.cost-item strong { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.cost-item.strike strong { text-decoration: line-through; color: #f87171 !important; }
+.cost-item.shared strong { color: var(--amber-400) !important; }
+.cost-item.per strong { color: var(--text-primary); }
+.cost-item.saved strong { color: var(--green-400) !important; font-size: 17px; }
+
+.group-route {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-secondary); opacity: 0.7;
+  padding: 8px 10px;
+  background: rgba(34, 197, 94, 0.04);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .transport-groups { grid-template-columns: 1fr; }
+  .group-costs { grid-template-columns: repeat(2, 1fr); }
+}

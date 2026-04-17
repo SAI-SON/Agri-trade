@@ -1,0 +1,66 @@
+.form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.listing-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.listing-emoji {
+  font-size: 60px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(5, 150, 105, 0.05));
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+.listing-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.listing-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.listing-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.listing-meta { display: flex; gap: 6px; }
+.listing-price { font-size: 22px; font-weight: 800; color: var(--green-400); white-space: nowrap; }
+.listing-price span { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.listing-desc { font-size: 12px; color: var(--text-secondary); opacity: 0.8; line-height: 1.5; }
+.listing-farmer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(34, 197, 94, 0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+.farmer-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-600), var(--emerald-600));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.farmer-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.trust-score-badge {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 4px;
+  padding: 3px 8px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  color: var(--green-400);
+}
+.listing-location { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); opacity: 0.7; }
+.listing-actions { display: flex; gap: 8px; }
+
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
