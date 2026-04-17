@@ -36,12 +36,16 @@ export default function DemandRouting() {
       // Try to parse JSON from response
       const jsonMatch = raw.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        setAiSuggestion(JSON.parse(jsonMatch[0]));
+        const parsed = JSON.parse(jsonMatch[0]);
+        setAiSuggestion(parsed);
+        if (parsed.source === 'local-fallback') {
+          toast('Gemini API blocked. Showing local routing estimate.', { icon: '⚠️' });
+        }
       } else {
         setAiSuggestion({ bestMarket: 'See below', reason: raw, estimatedProfit: 'AI analysis', tip: '' });
       }
-    } catch {
-      toast.error('AI suggestion failed. Try again.');
+    } catch (error) {
+      toast.error(error?.message || 'AI suggestion failed. Try again.');
     } finally {
       setLoadingAI(false);
     }

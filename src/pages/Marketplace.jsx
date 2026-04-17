@@ -28,10 +28,17 @@ export default function Marketplace() {
   const [listings, setListings] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [loadingAI, setLoadingAI] = useState(false);
+  const normalizedRole = String(profile?.role || '').trim().toLowerCase();
+  const isFarmer = normalizedRole === 'farmer';
   const [form, setForm] = useState({
     crop: CROPS[0].id, quantity: 100, price: '', quality: 'Premium', description: '',
     location: profile?.location || 'Chennai',
   });
+
+  useEffect(() => {
+    if (!profile?.location) return;
+    setForm(p => ({ ...p, location: p.location || profile.location }));
+  }, [profile?.location]);
 
   useEffect(() => {
     let active = true;
@@ -70,21 +77,42 @@ export default function Marketplace() {
 
   async function addListing(e) {
     e.preventDefault();
+    if (!isFarmer) {
+      toast.error('Only farmer accounts can post products.');
+      return;
+    }
+
     const crop = CROPS.find(c => c.id === form.crop);
+    const payload = {
+      ...form,
+      quantity: Number(form.quantity),
+      price: Number(form.price),
+      cropName: crop.name,
+      cropEmoji: crop.emoji,
+      farmerName: profile?.name || user.displayName || 'Farmer',
+      farmerId: user.uid,
+      farmerTrust: profile?.trustScore || 70,
+      rating: 4.2 + Math.random() * 0.6,
+      reviews: Math.floor(5 + Math.random() * 20),
+      status: 'available',
+    };
+
     try {
-      const data = {
-        ...form, cropName: crop.name, cropEmoji: crop.emoji,
-        farmerName: profile?.name || user.displayName || 'Farmer',
-        farmerId: user.uid, farmerTrust: profile?.trustScore || 70,
-        rating: 4.2 + Math.random() * 0.6, reviews: Math.floor(5 + Math.random() * 20),
-        createdAt: serverTimestamp(), status: 'available',
-      };
+      const data = { ...payload, createdAt: serverTimestamp() };
       const ref = await addDoc(collection(firestore, 'listings'), data);
-      setListings(p => [{ id: ref.id, ...data, createdAt: { seconds: Date.now() / 1000 } }, ...p]);
+      setListings(p => [{ id: ref.id, ...payload, createdAt: { seconds: Date.now() / 1000 } }, ...p]);
       setShowForm(false);
       toast.success('Listing added successfully!');
     } catch (error) {
-      toast.error('Failed to add listing: ' + error.message);
+      const fallbackListing = {
+        id: `local-${Date.now()}`,
+        ...payload,
+        createdAt: { seconds: Date.now() / 1000 },
+      };
+      setListings(p => [fallbackListing, ...p]);
+      setShowForm(false);
+      toast('Posted locally. Backend write blocked/unavailable.', { icon: '⚠️' });
+      console.error('Listing save error:', error);
     }
   }
 
@@ -97,12 +125,18 @@ export default function Marketplace() {
           <h1 className="section-heading">🛒 Direct Farmer-to-Buyer Marketplace</h1>
           <p className="section-sub">Skip middlemen. Buy direct. Build trust.</p>
         </div>
-        {profile?.role === 'farmer' && (
+        {isFarmer && (
           <button className="btn btn-primary" onClick={() => setShowForm(p => !p)}>
             <Plus size={16} /> {showForm ? 'Cancel' : 'Add Listing'}
           </button>
         )}
       </div>
+
+      {!isFarmer && (
+        <div className="glass-card" style={{ padding: 12, marginBottom: 16, fontSize: 13, color: 'var(--text-secondary)' }}>
+          Product posting is available only for farmer accounts.
+        </div>
+      )}
 
       {/* Add Listing Form */}
       {showForm && (

@@ -10,6 +10,9 @@ export default function Profile() {
   const { user, profile } = useAuth();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: profile?.name || '', location: profile?.location || '' });
+  const isFarmer = String(profile?.role || '').trim().toLowerCase() === 'farmer';
+  const trustScore = profile?.trustScore || 70;
+  const trustLabel = trustScore >= 80 ? 'High Trust' : trustScore >= 60 ? 'Medium Trust' : 'Low Trust';
 
   async function save() {
     try {
@@ -68,6 +71,15 @@ export default function Profile() {
               <span className={`badge ${profile?.role === 'farmer' ? 'badge-success' : 'badge-info'}`} style={{ margin: '8px auto' }}>
                 {profile?.role === 'farmer' ? '🌱 Farmer' : '🛒 Buyer'}
               </span>
+              {isFarmer && (
+                <div className="farmer-trust-highlight">
+                  <div className="farmer-trust-score">{trustScore}</div>
+                  <div>
+                    <div className="farmer-trust-label">Farmer Trust Score</div>
+                    <div className="farmer-trust-state">{trustLabel}</div>
+                  </div>
+                </div>
+              )}
               <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>{profile?.location}</div>
               <button className="btn btn-secondary" style={{ marginTop: 16, width: '100%' }} onClick={() => setEditing(true)}>
                 <Edit3 size={14} /> Edit Profile

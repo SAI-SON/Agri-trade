@@ -31,6 +31,44 @@
   border-radius: 999px;
   font-size: 11px; font-weight: 700; color: #63b3ed;
 }
+.farmer-trust-highlight {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.08));
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+.farmer-trust-score {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--green-500), var(--emerald-600));
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.35);
+}
+.farmer-trust-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.farmer-trust-state {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
 .profile-name { font-size: 20px; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
 .profile-email { font-size: 13px; color: var(--text-secondary); opacity: 0.7; }
 .profile-edit-form { width: 100%; display: flex; flex-direction: column; gap: 10px; }
@@ -55,4 +93,5 @@
 }
 @media (max-width: 500px) {
   .profile-card { flex-direction: column; text-align: center; }
+  .farmer-trust-highlight { justify-content: flex-start; }
 }

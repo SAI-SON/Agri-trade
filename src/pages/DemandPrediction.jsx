@@ -33,14 +33,21 @@ export default function DemandPrediction() {
       } else {
         result = { demandLevel: 'Medium', priceRange: 'See analysis', reason: raw, strategy: 'Consult local market' };
       }
+      result.demandLevel = ['High', 'Medium', 'Low'].includes(result.demandLevel)
+        ? result.demandLevel
+        : 'Medium';
       result.crop = selectedCrop.name;
       result.month = selectedMonth;
       result.region = selectedRegion;
       setPrediction(result);
       setHistory(p => [result, ...p.slice(0, 4)]);
-      toast.success('AI prediction complete!');
-    } catch {
-      toast.error('Prediction failed. Check API.');
+      if (result.source === 'local-fallback') {
+        toast('Gemini API is blocked. Showing local estimate.', { icon: '⚠️' });
+      } else {
+        toast.success('AI prediction complete!');
+      }
+    } catch (error) {
+      toast.error(`Prediction failed: ${error?.message || 'Check API configuration.'}`);
     } finally {
       setLoading(false);
     }
